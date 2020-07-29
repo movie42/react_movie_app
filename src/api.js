@@ -8,10 +8,25 @@ const api = axios.create({
   },
 });
 
-export const TVApi = {
-  topRate: () => api.get("tv/top_rated"),
-  popular: () => api.get("tv/popular"),
-  airingToday: () => api.get("tv/airing_today"),
+export const tvApi = {
+  topRate: () =>
+    api.get("tv/top_rated", {
+      params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+      },
+    }),
+  popular: () =>
+    api.get("tv/popular", {
+      params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+      },
+    }),
+  airingToday: () =>
+    api.get("tv/airing_today", {
+      params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+      },
+    }),
   showDetail: (id) =>
     api.get(`tv/${id}`, {
       params: {
@@ -26,10 +41,25 @@ export const TVApi = {
     }),
 };
 
-export const MovieApi = {
-  nowPlaying: () => api.get("movie/now_playing"),
-  upComing: () => api.get("movie/upcoming"),
-  popular: () => api.get("movie/popular"),
+export const moviesApi = {
+  nowPlaying: () =>
+    api.get("movie/now_playing", {
+      params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+      },
+    }),
+  upComing: () =>
+    api.get("movie/upcoming", {
+      params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+      },
+    }),
+  popular: () =>
+    api.get("movie/popular", {
+      params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+      },
+    }),
   movieDetail: (id) =>
     api.get(`movie/${id}`, {
       params: {
