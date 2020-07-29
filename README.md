@@ -2,8 +2,6 @@
 
 It's my first React App
 
-test
-
 ## Screens
 
 - [ ] Home
