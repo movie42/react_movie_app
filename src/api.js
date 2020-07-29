@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 export const tvApi = {
-  topRate: () =>
+  topRated: () =>
     api.get("tv/top_rated", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
@@ -30,12 +30,14 @@ export const tvApi = {
   showDetail: (id) =>
     api.get(`tv/${id}`, {
       params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
         append_to_response: "videos",
       },
     }),
   search: (term) =>
     api.get("search/tv", {
       params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
         query: encodeURIComponent(term),
       },
     }),
@@ -63,12 +65,14 @@ export const moviesApi = {
   movieDetail: (id) =>
     api.get(`movie/${id}`, {
       params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
         append_to_response: "videos",
       },
     }),
   search: (term) =>
     api.get("search/movie", {
       params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
         query: encodeURIComponent(term),
       },
     }),
