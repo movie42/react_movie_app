@@ -7,7 +7,7 @@ import Message from "../../Components/Message";
 import Poster from "../../Components/Poster";
 
 const Container = styled.div`
-  padding: 0 20px;
+  padding: 20px;
 `;
 
 const HomePresenter = ({ nowPlaying, upComing, popular, error, loading }) =>
@@ -19,7 +19,7 @@ const HomePresenter = ({ nowPlaying, upComing, popular, error, loading }) =>
         <Section title="Now Playing">
           {nowPlaying.map((movie) => (
             <Poster
-              ket={movie.id}
+              key={movie.id}
               id={movie.id}
               imageUrl={movie.poster_path}
               title={movie.original_title}
@@ -34,7 +34,7 @@ const HomePresenter = ({ nowPlaying, upComing, popular, error, loading }) =>
         <Section title="Upcoming Playing">
           {upComing.map((movie) => (
             <Poster
-              ket={movie.id}
+              key={movie.id}
               id={movie.id}
               imageUrl={movie.poster_path}
               title={movie.original_title}
@@ -49,7 +49,7 @@ const HomePresenter = ({ nowPlaying, upComing, popular, error, loading }) =>
         <Section title="Popular Playing">
           {popular.map((movie) => (
             <Poster
-              ket={movie.id}
+              key={movie.id}
               id={movie.id}
               imageUrl={movie.poster_path}
               title={movie.original_title}
