@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 const List = styled.ul`
   display: flex;
@@ -11,22 +11,23 @@ const List = styled.ul`
 
 const Item = styled.li`
   color: ${(props) => (props.current ? "red" : "inherit")};
+  font-weight: ${(props) => (props.current ? "bolder" : "normal")};
 `;
 
 const OLink = styled(Link)``;
 
-export default () => (
+export default withRouter(({ location: { pathname } }) => (
   <header>
     <List>
-      <Item>
+      <Item current={pathname === "/"}>
         <OLink to="/">MOVIE</OLink>
       </Item>
-      <Item>
+      <Item current={pathname === "/tv"}>
         <OLink to="/tv">TV</OLink>
       </Item>
-      <Item>
+      <Item current={pathname === "/search"}>
         <OLink to="/search">SEARCH</OLink>
       </Item>
     </List>
   </header>
-);
+));
