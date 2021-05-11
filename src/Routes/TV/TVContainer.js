@@ -4,9 +4,9 @@ import TVPresenter from "./TVPresenter";
 
 export default class extends React.Component {
   state = {
-    on_the_air: null,
+    onTheAir: null,
     popular: null,
-    top_rated: null,
+    topRated: null,
     error: null,
     loading: true,
   };
@@ -43,9 +43,9 @@ export default class extends React.Component {
     const { onTheAir, popular, topRated, error, loading } = this.state;
     return (
       <TVPresenter
-        on_the_air={onTheAir}
+        onTheAir={onTheAir}
         popular={popular}
-        top_rated={topRated}
+        topRated={topRated}
         error={error}
         loading={loading}
       />
