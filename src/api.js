@@ -2,10 +2,6 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
-  parmas: {
-    api_key: "c8217c197351c46c3ee280e4e9a2e542",
-    language: "ko-KOREA",
-  },
 });
 
 export const movieApi = {
@@ -13,18 +9,21 @@ export const movieApi = {
     api.get("movie/now_playing", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   popular: () =>
     api.get("movie/popular", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   upComing: () =>
     api.get("movie/upcoming", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   movieDetail: (id) =>
@@ -32,6 +31,7 @@ export const movieApi = {
       params: {
         append_to_response: "videos",
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   search: (term) =>
@@ -39,6 +39,7 @@ export const movieApi = {
       params: {
         query: term,
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
 };
@@ -48,18 +49,21 @@ export const tvApi = {
     api.get("tv/on_the_air", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   popular: () =>
     api.get("tv/popular", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   top_rated: () =>
     api.get("tv/top_rated", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   tvDetail: (id) =>
@@ -67,6 +71,7 @@ export const tvApi = {
       params: {
         append_to_response: "videos",
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
   search: (term) =>
@@ -74,6 +79,7 @@ export const tvApi = {
       params: {
         query: term,
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KOREA",
       },
     }),
 };

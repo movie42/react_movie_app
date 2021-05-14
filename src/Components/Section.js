@@ -13,7 +13,11 @@ const Title = styled.h3`
 `;
 
 const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 140px));
+  grid-gap: 3px;
   margin-top: 10px;
+  justify-content: space-between;
 `;
 
 const Section = ({ title, children }) => {
