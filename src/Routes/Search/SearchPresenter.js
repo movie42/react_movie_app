@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Loader from "Components/Loader";
 import Section from "Components/Section";
-import Error from "Components/Error";
+import Message from "Components/Message";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -49,7 +49,10 @@ const TVPresenter = ({
         {tvSearch && tvSearch.length > 0 && (
           <Section title="드라마"> {tvSearch.map((tv) => tv.name)} </Section>
         )}
-        {error && <Error text={error} />}
+        {error && <Message color="black" text={error} />}
+        {movieSearch && movieSearch.length === 0 && tvSearch.length === 0 && (
+          <Message text="검색어를 찾을 수 없습니다." color="#5e5e5e" />
+        )}
       </>
     )}
   </Container>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Section from "Components/Section";
 import Loader from "Components/Loader";
-import Error from "Components/Error";
+import Message from "Components/Message";
 
 const Container = styled.div`
   padding: 0 10px;
@@ -29,7 +29,7 @@ const HomePresenter = ({ nowPlaying, popular, upComing, error, loading }) =>
           {upComing.map((movie) => movie.title)}
         </Section>
       )}
-      {error && <Error text={error} />}
+      {error && <Message color="black" text={error} />}
     </Container>
   );
 

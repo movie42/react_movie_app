@@ -13,17 +13,18 @@ const Container = styled.div`
 const Text = styled.h3`
   font-size: 35px;
   font-weight: bolder;
-  color: red;
+  color: ${(props) => props.color};
 `;
 
-const Error = ({ text }) => (
+const Message = ({ text, color }) => (
   <Container>
-    <Text>{text}</Text>
+    <Text color={color}>{text}</Text>
   </Container>
 );
 
-Error.propTypes = {
+Message.propTypes = {
   text: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
-export default Error;
+export default Message;
