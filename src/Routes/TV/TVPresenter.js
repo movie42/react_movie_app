@@ -15,7 +15,6 @@ const TVPresenter = ({ onTheAir, popular, topRated, error, loading }) =>
     <Container>
       {onTheAir && onTheAir.length > 0 && (
         <Section title="방영중">
-          {console.log(onTheAir)}
           {onTheAir.map((tv) => (
             <Poster
               id={tv.id}

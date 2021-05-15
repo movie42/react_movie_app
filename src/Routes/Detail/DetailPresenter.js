@@ -19,9 +19,25 @@ const Background = styled.div`
   background-image: url(${(props) => props.bgUrl});
   background-size: cover;
   background-position: center center;
+  z-index: -1;
 `;
 
-const DetailPresenter = ({ result, error, loading }) =>
+const Data = styled.div``;
+
+const Title = styled.h3``;
+
+const ItemContainer = styled.div``;
+
+const Year = styled.span``;
+const Time = styled.span``;
+const Genres = styled.span``;
+
+const Overview = styled.p``;
+
+const VideoContainer = styled.div``;
+const Video = styled.iframe``;
+
+const DetailPresenter = ({ result, video, error, loading, isMovie }) =>
   loading ? (
     <Loader />
   ) : (
@@ -29,14 +45,39 @@ const DetailPresenter = ({ result, error, loading }) =>
       <Background
         bgUrl={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
       />
+      <VideoContainer>
+        {console.log(video)}
+        <Video
+          src={`https://youtube.com/embed/${video.results[0].key}`}
+        ></Video>
+      </VideoContainer>
+      <Data>
+        <Title>{result.title}</Title>
+        <ItemContainer>
+          <Year>
+            {isMovie
+              ? result.release_date.substring(0, 4)
+              : result.first_air_date.substring(0, 4)}
+          </Year>
+          <Time>
+            {isMovie
+              ? `${result.runtime}min`
+              : `${result.number_of_seasons}시즌 ${result.number_of_episodes}편`}
+          </Time>
+          <Genres>{result.genres.map((value) => ` ${value.name}`)}</Genres>
+        </ItemContainer>
+        <Overview>{result.overview}</Overview>
+      </Data>
       {error && <Message color="red" title={error} />}
     </Conatiner>
   );
 
 DetailPresenter.propTypes = {
   result: PropTypes.object,
+  video: PropTypes.object,
   loading: PropTypes.bool.isRequired,
   error: PropTypes.string,
+  isMovie: PropTypes.bool,
 };
 
 export default DetailPresenter;

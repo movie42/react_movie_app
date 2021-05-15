@@ -10,6 +10,7 @@ export default class extends React.Component {
     } = props;
     this.state = {
       result: null,
+      video: null,
       error: null,
       loading: true,
       isMovie: pathname.includes("/movie/"),
@@ -29,22 +30,33 @@ export default class extends React.Component {
       return push("/");
     }
     let result = null;
+    let video = null;
     try {
       if (isMovie) {
         ({ data: result } = await movieApi.movieDetail(parsedId));
+        ({ data: video } = await movieApi.movieDetailVideo(parsedId));
       } else {
         ({ data: result } = await tvApi.tvDetail(parsedId));
+        ({ data: video } = await tvApi.tvDetailVideo(parsedId));
       }
-      this.setState({});
+      this.setState({ result, video });
     } catch {
       this.setState({ error: "영화 정보를 불러올 수 없습니다." });
     } finally {
-      this.setState({ loading: false, result });
+      this.setState({ loading: false, result, isMovie });
     }
   }
 
   render() {
-    const { result, error, loading } = this.state;
-    return <DetailPresenter result={result} error={error} loading={loading} />;
+    const { result, video, error, loading, isMovie } = this.state;
+    return (
+      <DetailPresenter
+        result={result}
+        video={video}
+        error={error}
+        loading={loading}
+        isMovie={isMovie}
+      />
+    );
   }
 }

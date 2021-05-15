@@ -2,6 +2,9 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://api.themoviedb.org/3/",
+  params: {
+    api_key: "c8217c197351c46c3ee280e4e9a2e542",
+  },
 });
 
 export const movieApi = {
@@ -9,29 +12,36 @@ export const movieApi = {
     api.get("movie/now_playing", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "ko-KR",
       },
     }),
   popular: () =>
     api.get("movie/popular", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "ko-KR",
       },
     }),
   upComing: () =>
     api.get("movie/upcoming", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "ko-KR",
       },
     }),
   movieDetail: (id) =>
     api.get(`movie/${id}`, {
       params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KR",
+      },
+    }),
+  movieDetailVideo: (id) =>
+    api.get(`movie/${id}/videos`, {
+      params: {
         append_to_response: "videos",
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "en-US",
       },
     }),
   search: (term) =>
@@ -39,7 +49,7 @@ export const movieApi = {
       params: {
         query: term,
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "ko-KR",
       },
     }),
 };
@@ -49,29 +59,36 @@ export const tvApi = {
     api.get("tv/on_the_air", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "ko-KR",
       },
     }),
   popular: () =>
     api.get("tv/popular", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "ko-KR",
       },
     }),
   top_rated: () =>
     api.get("tv/top_rated", {
       params: {
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "ko-KR",
       },
     }),
   tvDetail: (id) =>
     api.get(`tv/${id}`, {
       params: {
+        api_key: "c8217c197351c46c3ee280e4e9a2e542",
+        language: "ko-KR",
+      },
+    }),
+  tvDetailVideo: (id) =>
+    api.get(`tv/${id}/videos`, {
+      params: {
         append_to_response: "videos",
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "en-US",
       },
     }),
   search: (term) =>
@@ -79,7 +96,7 @@ export const tvApi = {
       params: {
         query: term,
         api_key: "c8217c197351c46c3ee280e4e9a2e542",
-        language: "ko-KOREA",
+        language: "en-US",
       },
     }),
 };
