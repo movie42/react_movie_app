@@ -1,6 +1,7 @@
 # React로 movie app 만들기
 
 > new update 2021.05.09
+> Deploying https://trusting-wilson-9143af.netlify.app
 
 ## 리엑트 다시 복습
 
