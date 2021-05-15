@@ -77,7 +77,7 @@ const DetailPresenter = ({ result, video, error, loading, isMovie }) =>
           <Year>
             {isMovie
               ? result.release_date.substring(0, 4)
-              : result.first_air_date.substring(0, 4)}{" "}
+              : result.first_air_date.substring(0, 4)}
           </Year>
           <Divider>・</Divider>
           <Time>
