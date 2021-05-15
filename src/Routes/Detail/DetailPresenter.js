@@ -6,36 +6,62 @@ import Message from "Components/Message";
 
 const Conatiner = styled.div`
   position: relative;
-  height: calc(100vh - 10px);
-  width: 100%;
+  padding: 20px 20px;
 `;
 
 const Background = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+  right: 0;
   background-image: url(${(props) => props.bgUrl});
   background-size: cover;
   background-position: center center;
   z-index: -1;
 `;
 
-const Data = styled.div``;
+const Data = styled.div`
+  margin-bottom: 10px;
+`;
 
-const Title = styled.h3``;
+const Title = styled.h3`
+  font-size: 2.5em;
+  font-weight: bolder;
+  color: white;
+  margin-bottom: 5px;
+`;
 
-const ItemContainer = styled.div``;
+const ItemContainer = styled.div`
+  color: white;
+`;
 
-const Year = styled.span``;
+const Year = styled.span`
+  color: white;
+`;
 const Time = styled.span``;
 const Genres = styled.span``;
 
-const Overview = styled.p``;
+const Overview = styled.p`
+  padding-top: 10px;
+  color: white;
+  line-height: 25px;
+`;
 
-const VideoContainer = styled.div``;
-const Video = styled.iframe``;
+const VideoContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+`;
+const Video = styled.iframe`
+  width: 1080px;
+  height: 700px;
+`;
+const Divider = styled.span`
+  color: white;
+  margin: 0 5px;
+`;
 
 const DetailPresenter = ({ result, video, error, loading, isMovie }) =>
   loading ? (
@@ -45,29 +71,34 @@ const DetailPresenter = ({ result, video, error, loading, isMovie }) =>
       <Background
         bgUrl={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
       />
-      <VideoContainer>
-        {console.log(video)}
-        <Video
-          src={`https://youtube.com/embed/${video.results[0].key}`}
-        ></Video>
-      </VideoContainer>
+      <Title>{result.title}</Title>
       <Data>
-        <Title>{result.title}</Title>
         <ItemContainer>
           <Year>
             {isMovie
               ? result.release_date.substring(0, 4)
-              : result.first_air_date.substring(0, 4)}
+              : result.first_air_date.substring(0, 4)}{" "}
           </Year>
+          <Divider>・</Divider>
           <Time>
             {isMovie
               ? `${result.runtime}min`
               : `${result.number_of_seasons}시즌 ${result.number_of_episodes}편`}
           </Time>
-          <Genres>{result.genres.map((value) => ` ${value.name}`)}</Genres>
+          <Divider>・</Divider>
+          <Genres>
+            {result.genres.map((value) => (
+              <Divider>{value.name}</Divider>
+            ))}
+          </Genres>
         </ItemContainer>
         <Overview>{result.overview}</Overview>
       </Data>
+      <VideoContainer>
+        <Video
+          src={`https://youtube.com/embed/${video.results[0].key}`}
+        ></Video>
+      </VideoContainer>
       {error && <Message color="red" title={error} />}
     </Conatiner>
   );

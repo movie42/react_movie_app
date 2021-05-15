@@ -4,13 +4,25 @@ import { Link, withRouter } from "react-router-dom";
 
 const List = styled.ul`
   display: flex;
-  &:hover {
-    background-color: red;
-  }
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  padding: 10px 0;
 `;
 
 const Item = styled.li`
-  color: ${(props) => (props.current ? "red" : "inherit")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color: white;
+  }
+  width: 80px;
+  height: 90%;
+  border-radius: 10px;
+  font-size: 1.5em;
+  color: ${(props) => (props.current ? "white" : "inherit")};
   font-weight: ${(props) => (props.current ? "bolder" : "normal")};
 `;
 
@@ -20,13 +32,13 @@ export default withRouter(({ location: { pathname } }) => (
   <header>
     <List>
       <Item current={pathname === "/"}>
-        <OLink to="/">MOVIE</OLink>
+        <OLink to="/">영화</OLink>
       </Item>
       <Item current={pathname === "/tv"}>
         <OLink to="/tv">TV</OLink>
       </Item>
       <Item current={pathname === "/search"}>
-        <OLink to="/search">SEARCH</OLink>
+        <OLink to="/search">검색</OLink>
       </Item>
     </List>
   </header>

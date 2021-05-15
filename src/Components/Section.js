@@ -3,18 +3,18 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-bottom: 20px;
+  margin: 20px 0;
 `;
 
 const Title = styled.h3`
-  font-size: 20px;
+  font-size: 25px;
   color: #ff0000;
   font-weight: bolder;
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 140px));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 150px));
   grid-gap: 3px;
   margin-top: 10px;
   justify-content: space-between;
