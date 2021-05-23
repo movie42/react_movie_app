@@ -63,6 +63,16 @@ const Divider = styled.span`
   margin: 0 5px;
 `;
 
+const ImdbContainer = styled.a`
+  display: inline-block;
+  background-color: #f4c518;
+  padding: 5px 10px;
+  width: 60px;
+  border-radius: 6px;
+  font-weight: bolder;
+  margin-top: 10px;
+`;
+
 const DetailPresenter = ({ result, video, error, loading, isMovie }) =>
   loading ? (
     <Loader />
@@ -71,7 +81,7 @@ const DetailPresenter = ({ result, video, error, loading, isMovie }) =>
       <Background
         bgUrl={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`}
       />
-      <Title>{result.title}</Title>
+      <Title>{isMovie ? result.title : result.name}</Title>
       <Data>
         <ItemContainer>
           <Year>
@@ -92,6 +102,14 @@ const DetailPresenter = ({ result, video, error, loading, isMovie }) =>
             ))}
           </Genres>
         </ItemContainer>
+        {isMovie ? (
+          <ImdbContainer
+            href={`https://imdb.com/title/${result.imdb_id}`}
+            target="_blank"
+          >
+            IMDb
+          </ImdbContainer>
+        ) : null}
         <Overview>{result.overview}</Overview>
       </Data>
       <VideoContainer>

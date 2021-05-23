@@ -38,6 +38,9 @@ export default class extends React.Component {
       } else {
         ({ data: result } = await tvApi.tvDetail(parsedId));
         ({ data: video } = await tvApi.tvDetailVideo(parsedId));
+        {
+          console.log(result);
+        }
       }
       this.setState({ result, video });
     } catch {
