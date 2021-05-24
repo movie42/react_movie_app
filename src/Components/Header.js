@@ -28,7 +28,7 @@ const Item = styled.li`
 
 const OLink = styled(Link)``;
 
-export default withRouter(({ location: { pathname } }) => (
+const Header = withRouter(({ location: { pathname } }) => (
   <header>
     <List>
       <Item current={pathname === "/"}>
@@ -43,3 +43,5 @@ export default withRouter(({ location: { pathname } }) => (
     </List>
   </header>
 ));
+
+export default Header;

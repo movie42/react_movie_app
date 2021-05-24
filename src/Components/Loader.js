@@ -9,4 +9,6 @@ const Container = styled.div`
   align-items: center;
 `;
 
-export default () => <Container>Loading...</Container>;
+const Loading = () => <Container>Loading...</Container>;
+
+export default Loading;
