@@ -3,7 +3,7 @@ import { Link, withRouter, Router, Route } from "react-router-dom";
 import { movieApi, tvApi } from "api";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Video from "Routes/Video";
+import Video from "./Video";
 import Message from "Components/Message";
 import Loader from "Components/Loader";
 import Makers from "./Makers";
