@@ -6,6 +6,7 @@ import Loader from "Components/Loader";
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -13,7 +14,8 @@ const Container = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 0;
 `;
 
 const Video = styled.iframe`
@@ -22,9 +24,8 @@ const Video = styled.iframe`
 `;
 
 const CloseBtn = styled.button`
-  position: absolute;
-  top: 40px;
   font-size: 20px;
+  margin: 10px 0;
   padding: 5px 10px;
   background-color: red;
   border-radius: 5px;
@@ -38,6 +39,14 @@ const CloseBtn = styled.button`
   }
 `;
 
+const Overview = styled.p`
+  margin-top: 10px;
+  padding-top: 10px;
+  color: white;
+  line-height: 27px;
+  width: 720px;
+`;
+
 const VideoContainer = ({
   location: { pathname },
   match: {
@@ -47,6 +56,7 @@ const VideoContainer = ({
 }) => {
   const [loading, setLoading] = useState(true);
   const [videoData, setVideoData] = useState([]);
+  const [overview, setOverview] = useState("");
   const [error, setError] = useState(null);
 
   const parsedId = +id;
@@ -54,17 +64,25 @@ const VideoContainer = ({
 
   const dataLoader = async () => {
     try {
+      let overview = null;
       let results = null;
       if (isMovie) {
         ({
           data: { results },
         } = await movieApi.movieDetailVideo(parsedId));
+        ({
+          data: { overview },
+        } = await movieApi.movieDetail(parsedId));
       } else {
         ({
           data: { results },
         } = await tvApi.tvDetailVideo(parsedId));
+        ({
+          data: { overview },
+        } = await tvApi.tvDetail(parsedId));
       }
       setVideoData(results);
+      setOverview(overview);
     } catch {
       setError("데이터를 찾을 수 없습니다.");
     } finally {
@@ -89,9 +107,10 @@ const VideoContainer = ({
           }
         }}
       >
-        동영상 닫기
+        메인으로 돌아가기
       </CloseBtn>
       <Video src={`https://www.youtube.com/embed/${videoData[0].key}`}></Video>
+      <Overview>{overview}</Overview>
     </Container>
   );
 };

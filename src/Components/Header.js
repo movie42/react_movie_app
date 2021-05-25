@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 
+const HeaderMenu = styled.header``;
+
 const List = styled.ul`
   display: flex;
   width: 100%;
@@ -29,7 +31,7 @@ const Item = styled.li`
 const OLink = styled(Link)``;
 
 const Header = withRouter(({ location: { pathname } }) => (
-  <header>
+  <HeaderMenu>
     <List>
       <Item current={pathname === "/"}>
         <OLink to="/">영화</OLink>
@@ -41,7 +43,7 @@ const Header = withRouter(({ location: { pathname } }) => (
         <OLink to="/search">검색</OLink>
       </Item>
     </List>
-  </header>
+  </HeaderMenu>
 ));
 
 export default Header;
