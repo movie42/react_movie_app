@@ -3,11 +3,11 @@ import { Link, withRouter, Router, Route } from "react-router-dom";
 import { movieApi, tvApi } from "api";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Video from "./Video";
 import Message from "Components/Message";
 import Loader from "Components/Loader";
 import Makers from "./Makers";
 import Season from "./Season";
+import VideoContainer from "./Video";
 
 const Container = styled.div`
   position: relative;
@@ -196,7 +196,7 @@ const Detail = withRouter(
               <Route
                 path={adress ? "/movie/:id/video" : "/tv/:id/video"}
                 exact
-                component={Video}
+                component={VideoContainer}
               />
               <Route
                 path={adress ? "/movie/:id/makers" : "/tv/:id/makers"}
