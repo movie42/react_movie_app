@@ -159,8 +159,8 @@ const Season = ({
                 {value.name && <SeasonName>{value.name}</SeasonName>}
                 {value.air_date && (
                   <SeasonInfom>
-                    방영일 : {`${value.air_date.split("-")[0]}`}년{" "}
-                    {`${value.air_date.split("-")[1]}`}월{" "}
+                    방영일 : {`${value.air_date.split("-")[0]}`}년
+                    {`${value.air_date.split("-")[1]}`}월
                     {`${value.air_date.split("-")[2]}`}일
                   </SeasonInfom>
                 )}
