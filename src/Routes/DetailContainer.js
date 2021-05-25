@@ -7,7 +7,7 @@ import Message from "Components/Message";
 import Loader from "Components/Loader";
 import Makers from "./Makers";
 import Season from "./Season";
-import VideoContainer from "./Video";
+import VideoContainer from "./VideoContainer";
 
 const Container = styled.div`
   position: relative;
