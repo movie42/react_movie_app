@@ -1,17 +1,64 @@
 # React로 movie app 만들기
 
-> new update 2021.05.09  
+> new update 2021.11.1  
 > Deploying https://trusting-wilson-9143af.netlify.app
 
-## 리엑트 다시 복습
+## 목차
 
-오래 전 해봤던 거라 좀 많이 까먹어서 다시 한다. 이번 목표는 리엑트를 재복습하고 react hook을 사용하여 코드를 리펙토링 해보고 해당 어플리케이션을 디폴로잉 해보는 것이다.
+## 참조
 
-## 컴포넌트
+- 이 포트폴리오는 [노마드코더의 리액트 맴버십](https://nomadcoders.co/react-for-beginners)을 토대로 만들었다.(2021.5)
+- 리액트를 다시 복습은 [clelab](https://clelab.io/course/react)을 참고해서 복습하였다.
 
-리엑트 복습을 하면서 정말 편하다고 생각된 부분이 컴포넌트이다. 컴포넌트를 생성하여서 내가 다시 사용하고 싶은 곳에 재사용이 가능하다. 코드 반복을 정말 많이 줄일 수 있다. 프론트 앤드 개발을 하는데 이 점이 가장 큰 장점이 아닐까 생각된다. 아직 조금 더 큰 프로젝트를 진행해본 것은 아니었지만 어찌됐든 컴포넌트는 큰 프로젝트 일수록 장점으로 작용할 수 있을 것 같다.
+## 프로젝트에 덧붙일 내용 계획
 
-## What is next?
+> 2021.11.1
 
-다음은 당영히 인스타그램 클론이다.
-React, React Native, graphql 등을 이용해서 front와 back을 이해해보고 해당 강의를 듣고 이해한 것을 바탕으로 웹 어플리케이션을 만들어서 서비스해보는게 목표다. (과연 언제쯤? 빨리해야겠지...)
+- 리액트에 관련된 내용을 쭉 복습
+- 리액트 훅과 커스텀 훅 만들어보기
+- 상태관리 reducx 또는 mobx등 사용해보기(상태 관리는 왜 하는거지?)
+
+## React와 세팅
+
+[React - CRA (Create-React-App)](https://velog.io/@devmoonsh/React-CRA-Create-React-App)
+
+### CRA 설치
+
+1. 먼저 nodejs가 설치 되어있어야한다.
+
+2. 터미널에서 프로젝트를 생성하고자 하는 위치에서 아래와 같이 입력한다.
+   - my-project는 내가 원하는 이름으로 변경할 수 있다.
+
+```
+npx create-react-app my-project
+```
+
+3. npx가 안되면 먼저 npx를 설치하면 된다.
+
+```
+npm install npx -g
+```
+
+설치 후 확인은 npx -v 명령어를 실행하면 된다.
+
+4. project로 이동한 뒤 npm start로 실행시키면 로컬 서버 주소를 확인 할 수 있다.
+
+### 업데이트
+
+#### CRA 업데이트
+
+[Create React App-Based Projects를 버전 4 (CRA 4)로 업그레이드](https://ichi.pro/ko/create-react-app-based-projectsleul-beojeon-4-cra-4-lo-eobgeuleideu-237039965311398)
+[공식문서 : Updating to New Releases](https://create-react-app.dev/docs/updating-to-new-releases/)
+[CRA 깃 저장소](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md)
+
+나같은 경우는 이미 CRA가 설치된 상황이라 업데이트가 필요했다.
+
+1. 터미널을 열고 프로젝트로 이동한뒤 아래 명령어를 입력한다.
+
+```
+npm install --save --save-exact react-scripts@latest
+```
+
+#### npm 종속 패키지 최신 버전으로 업데이트 하기
+
+[package.json의 종속성을 최신버전으로 업데이트하는 방법](https://blog.stories.pe.kr/271)
