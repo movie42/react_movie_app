@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { tvApi, movieApi } from "api";
 import Loader from "Components/Loader";
+import Maker from "Components/MovieInfo/Maker";
+import { LinkButton, CommonButton } from "Components/ButtonStyle";
 
 const Container = styled.div`
   position: absolute;
@@ -17,66 +18,14 @@ const Container = styled.div`
   scroll-behavior: smooth;
 `;
 
-const CloseBtn = styled.button`
-  display: inline-block;
-  font-size: 20px;
-  padding: 5px 10px;
-  background-color: red;
-  border-radius: 5px;
-  color: white;
-  font-weight: bolder;
-  border: 0;
-  cursor: pointer;
-  &:hover {
-    color: red;
-    background-color: white;
-  }
-`;
-
 const ItemContainer = styled.div``;
 
-const ProductionItemContainer = styled.div`
-  margin-bottom: 30px;
-`;
-const ProductionItemList = styled.ul``;
-const ProductionItem = styled.li``;
-const ProductionInfoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  line-height: 2.2em;
-`;
-
-const HomePage = styled.a`
-  display: inline-block;
-  padding: 5px 6px;
-  font-size: 1.8em;
-  color: white;
-  border: 2px solid white;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  &:hover {
-    background-color: white;
-    color: black;
-  }
-`;
-
-const ProductionName = styled.h3`
-  font-size: 2em;
-  color: white;
-`;
-
-const Title = styled.h2`
-  font-size: 2.2em;
-  font-weight: bolder;
-  color: red;
-  margin-bottom: 7px;
-`;
 const Makers = ({
   location: { pathname },
   match: {
-    params: { id },
+    params: { id }
   },
-  history: { push },
+  history: { push }
 }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -105,87 +54,28 @@ const Makers = ({
     dataLoader();
   }, []);
 
+  function handleLink() {
+    if (isMovie) {
+      push(`/movie/${parsedId}`);
+    } else {
+      push(`/tv/${parsedId}`);
+    }
+  }
+
   return loading ? (
     <Loader />
   ) : (
     <Container>
       <ItemContainer>
-        <ProductionItemContainer>
-          <Title>제작</Title>
-          <ProductionItemList>
-            {data.production_companies.map((value) => (
-              <ProductionItem>
-                <ProductionInfoContainer>
-                  {value.name && <ProductionName>{value.name}</ProductionName>}
-                </ProductionInfoContainer>
-              </ProductionItem>
-            ))}
-          </ProductionItemList>
-        </ProductionItemContainer>
-        <HomePage href={data.homepage}>홈페이지</HomePage>
-        {isMovie ? null : (
-          <ProductionItemContainer>
-            <Title>제작자</Title>
-            <ProductionItemList>
-              {data.created_by.map((value) => (
-                <ProductionItem>
-                  <ProductionInfoContainer>
-                    {value.name && (
-                      <ProductionName>{value.name}</ProductionName>
-                    )}
-                  </ProductionInfoContainer>
-                </ProductionItem>
-              ))}
-            </ProductionItemList>
-          </ProductionItemContainer>
-        )}
-        <ProductionItemContainer>
-          <Title>제작 국가</Title>
-          <ProductionItemList>
-            {data.production_countries.map((value) => (
-              <ProductionItem>
-                <ProductionInfoContainer>
-                  {value.name && <ProductionName>{value.name}</ProductionName>}
-                </ProductionInfoContainer>
-              </ProductionItem>
-            ))}
-          </ProductionItemList>
-        </ProductionItemContainer>
-        {isMovie ? (
-          <>
-            <ProductionItemContainer>
-              <Title>제작비</Title>
-              <ProductionName>
-                ${data.budget.toLocaleString("ko-KR")}
-              </ProductionName>
-            </ProductionItemContainer>
-            <ProductionItemContainer>
-              <Title>흥행수익</Title>
-              <ProductionName>
-                ${data.revenue.toLocaleString("ko-KR")}
-              </ProductionName>
-            </ProductionItemContainer>
-          </>
-        ) : (
-          "null"
-        )}
-
-        <ProductionItemContainer>
-          <Title>평점</Title>
-          <ProductionName>{data.vote_average}</ProductionName>
-        </ProductionItemContainer>
+        <Maker title="제작" data={data.production_companies} />
+        <LinkButton href={data.homepage} title="홈페이지" />
+        <Maker title="제작자" data={data.created_by} />
+        <Maker title="제작 국가" data={data.production_countries} />
+        <Maker title="제작비" data={data.budget} marker="$" />
+        <Maker title="흥행수익" data={data.revenue} marker="$" />
+        <Maker title="평점" data={data.vote_average} />
       </ItemContainer>
-      <CloseBtn
-        onClick={() => {
-          if (isMovie) {
-            push(`/movie/${parsedId}`);
-          } else {
-            push(`/tv/${parsedId}`);
-          }
-        }}
-      >
-        메인으로 돌아가기
-      </CloseBtn>
+      <CommonButton func={handleLink} title="메인으로 돌아가기" />
     </Container>
   );
 };
