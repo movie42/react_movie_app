@@ -25,23 +25,25 @@ const SearchContainer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [movieData, setMovieData] = useState([]);
-  const [tvData, setTvData] = useState([]);
+  const [datas, setDatas] = useState({
+    movie: [],
+    tv: []
+  });
 
   const getData = async () => {
     try {
       const {
-        data: { results: movieSearch },
+        data: { results: movieSearch }
       } = await movieApi.search(searchTerm);
       const {
-        data: { results: tvSearch },
+        data: { results: tvSearch }
       } = await tvApi.search(searchTerm);
 
-      setMovieData(movieSearch);
-      setTvData(tvSearch);
+      setDatas({ movie: movieSearch, tv: tvSearch });
     } catch {
       setError("정보를 찾을 수 없습니다.");
       setLoading(false);
+      setDatas({ movie: [], tv: [] });
     } finally {
       setLoading(false);
     }
@@ -49,9 +51,7 @@ const SearchContainer = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchTerm) {
-      getData();
-    }
+    getData();
   };
 
   const updateTerm = (e) => {
@@ -75,9 +75,9 @@ const SearchContainer = () => {
         <Loader />
       ) : (
         <>
-          {movieData && movieData.length > 0 && (
+          {datas.movie && datas.movie.length > 0 && (
             <Section title="영화">
-              {movieData.map((movie) => (
+              {datas.movie.map((movie) => (
                 <Poster
                   id={movie.id}
                   imageUrl={movie.poster_path}
@@ -93,25 +93,32 @@ const SearchContainer = () => {
               ))}
             </Section>
           )}
-          {tvData && tvData.length > 0 && (
+          {datas.tv && datas.tv.length > 0 && (
             <Section title="드라마">
-              {tvData.map((tv) => (
+              {datas.tv.map((tv) => (
                 <Poster
                   id={tv.id}
                   imageUrl={tv.poster_path}
                   title={tv.name}
                   rating={tv.vote_average}
                   year={
-                    tv.first_air_date ? tv.first_air_date.substring(0, 4) : null
+                    tv.first_air_date
+                      ? tv.first_air_date.substring(0, 4)
+                      : null
                   }
                 />
               ))}
             </Section>
           )}
           {error && <Message color="black" text={error} />}
-          {movieData && movieData.length === 0 && tvData.length === 0 && (
-            <Message text="검색어를 찾을 수 없습니다." color="#5e5e5e" />
-          )}
+          {datas.movie &&
+            datas.movie.length === 0 &&
+            datas.tv.length === 0 && (
+              <Message
+                text="검색어를 찾을 수 없습니다."
+                color="#5e5e5e"
+              />
+            )}
         </>
       )}
     </Container>
