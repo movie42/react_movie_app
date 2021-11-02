@@ -62,7 +62,7 @@ const VideoContainer = ({
   const parsedId = +id;
   const isMovie = pathname.includes("/movie/");
 
-  const dataLoader = async () => {
+  const getData = async () => {
     try {
       let overview = null;
       let results = null;
@@ -91,7 +91,7 @@ const VideoContainer = ({
   };
 
   useEffect(() => {
-    dataLoader();
+    getData();
   }, []);
 
   return loading ? (
