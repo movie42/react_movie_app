@@ -8,7 +8,7 @@ import {
 import Header from "Components/Header";
 import Home from "Routes/HomeContainer";
 import TV from "Routes/TVContainer";
-import Search from "Routes/Search";
+import Search from "Routes/SearchContainer";
 import Detail from "Routes/DetailContainer";
 
 const Routes = () => (
