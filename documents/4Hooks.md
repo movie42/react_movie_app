@@ -64,16 +64,16 @@ const SearchContainer = () => {
   // 중략
   const [datas, setDatas] = useState({
     movie: [],
-    tv: []
+    tv: [],
   });
 
   const getData = async () => {
     try {
       const {
-        data: { results: movieSearch }
+        data: { results: movieSearch },
       } = await movieApi.search(searchTerm);
       const {
-        data: { results: tvSearch }
+        data: { results: tvSearch },
       } = await tvApi.search(searchTerm);
 
       setDatas({ movie: movieSearch, tv: tvSearch });
@@ -125,3 +125,62 @@ useEffect(() => {
 위의 코드에서 useEffect를 사용하여 searchTerm의 상태가 변할 때마다 getData 함수를 실행하는 코드를 작성했다. 이렇게 하면 마치 입력 값에 따라 실시간으로 데이터를 불러오는 것처럼 느껴진다. 하지만 이건 내부적으로 봤을 때, 상태가 변할 때마다 getData 함수를 실행해서 api를 여러번 요청하는 것이기 때문에 데이터 주는 쪽에서 부담이 될 수도 있다.
 
 이렇게 실시간으로 업데이트 되는 것이 부담되면 searchTerm이 변할 때마다 실행하지 않고, 값이 한번만 실행 되도록 두번째 파라미터 값을 비어있는 []로 놔두면 된다.
+
+### 뒷정리하기
+
+> 참고
+> [리액트의 Hooks 완벽 정복하기 : 2.3 뒷정리하기](https://velog.io/@velopert/react-hooks) > [React 공식문서 useContext](https://ko.reactjs.org/docs/hooks-reference.html#usecontext)
+
+뒷정리(cleanup)란 컴포넌트가 언마운트되기 전, 업데이트 되기 직전에 어떠한 작업을 수행하고 싶을 때 useEffect에서 뒷정리 함수를 반환해주는 것.
+
+만약, 언마운트 될 때만 뒷정리 함수를 호출하고 싶다면 useEffect 함수의 두번째 파라미터에 비어있는 배열을 넣으면 된다.
+
+## useContext
+
+useContext를 이용해서 [배경 테마를 바꾸는 버튼](<(https://codesandbox.io/s/usehooks-od3bw?file=/src/UseContext.js)>)을 만들어보았다.
+
+useState를 사용하여 버튼을 누를 때마다 value값이 변하게 한다.
+
+```javascript
+// useState를 사용해서 상태값을 변경해준다.
+import React, { useState } from "react";
+import ContextSample from "./UseContext";
+
+export default function App() {
+  const [value, setValue] = useState("black");
+
+  const handleContext = () => {
+    return value === "black" ? setValue("white") : setValue("black");
+  };
+
+  return (
+    <>
+      <button onClick={handleContext}>button</button>
+      <ContextSample value={value} />
+    </>
+  );
+}
+```
+
+넘겨 받은 value값을 createContext에 넣어 context를 생성하고 변수에 대입된 이 값을 useContext 함수에 넣어서 버튼을 클릭할 때마다 변화하게 한다.
+
+```javascript
+import React, { createContext, useContext } from "react";
+
+const ContextSample = ({ value }) => {
+  const createTheme = createContext(value);
+  const theme = useContext(createTheme);
+  const style = {
+    width: "100vw",
+    height: "100vh",
+    background: theme,
+  };
+  return <div style={style} />;
+};
+
+export default ContextSample;
+```
+
+라이트 다크모드를 만들거나 모바일에서 햄버거 메뉴를 만들때 사용하면 유용할 것 같다.
+
+### useReducer
