@@ -81,16 +81,16 @@ const SearchContainer = () => {
   // 중략
   const [datas, setDatas] = useState({
     movie: [],
-    tv: [],
+    tv: []
   });
 
   const getData = async () => {
     try {
       const {
-        data: { results: movieSearch },
+        data: { results: movieSearch }
       } = await movieApi.search(searchTerm);
       const {
-        data: { results: tvSearch },
+        data: { results: tvSearch }
       } = await tvApi.search(searchTerm);
 
       setDatas({ movie: movieSearch, tv: tvSearch });
@@ -189,7 +189,7 @@ const ContextSample = ({ value }) => {
   const style = {
     width: "100vw",
     height: "100vh",
-    background: theme,
+    background: theme
   };
   return <div style={style} />;
 };
