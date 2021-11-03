@@ -40,7 +40,7 @@ const HomeContainer = () => {
       const {
         data: { results: upComing }
       } = await movieApi.upComing();
-      dispatch(nowPlaying, popular, upComing);
+      dispatch({ nowPlaying, popular, upComing });
     } catch {
       setError("영화 정보를 찾을 수 없습니다.");
       setLoading(false);
