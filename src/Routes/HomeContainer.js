@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { movieApi } from "api";
 import styled from "styled-components";
 import Loader from "../Components/Loader";
@@ -10,26 +10,37 @@ const Container = styled.div`
   padding: 0 10px;
 `;
 
+const reducer = (state, action) => {
+  const { nowPlaying, popular, upComing } = action;
+  return {
+    ...state,
+    nowPlaying,
+    popular,
+    upComing
+  };
+};
+
 const HomeContainer = () => {
   const [loading, setLoading] = useState(true);
-  const [nowPlaying, setNowPlaying] = useState([]);
-  const [popular, setPopular] = useState([]);
-  const [upComing, setUpComing] = useState([]);
+  const [state, dispatch] = useReducer(reducer, {
+    nowPlaying: [],
+    popular: [],
+    upComing: []
+  });
+
   const [error, setError] = useState(null);
   const getData = async () => {
     try {
       const {
-        data: { results: nowPlaying },
+        data: { results: nowPlaying }
       } = await movieApi.nowPlaying();
       const {
-        data: { results: popular },
+        data: { results: popular }
       } = await movieApi.popular();
       const {
-        data: { results: upComing },
+        data: { results: upComing }
       } = await movieApi.upComing();
-      setNowPlaying(nowPlaying);
-      setPopular(popular);
-      setUpComing(upComing);
+      dispatch(nowPlaying, popular, upComing);
     } catch {
       setError("영화 정보를 찾을 수 없습니다.");
       setLoading(false);
@@ -37,6 +48,7 @@ const HomeContainer = () => {
       setLoading(false);
     }
   };
+  const { nowPlaying, popular, upComing } = state;
   useEffect(() => {
     getData();
   }, []);
