@@ -3,7 +3,24 @@
 > 참고  
 > [리액트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)  
 > [React의 함수형 컴포넌트! (feat.Hooks)](https://velog.io/@solmii/React%EC%9D%98-%ED%95%A8%EC%88%98%ED%98%95-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8-feat.Hooks)  
-> [Hook의 개요](https://ko.reactjs.org/docs/hooks-intro.html) > [[번역] 심층 분석: React Hook은 실제로 어떻게 동작할까?](https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/)
+> [Hook의 개요](https://ko.reactjs.org/docs/hooks-intro.html)  
+> [[번역] 심층 분석: React Hook은 실제로 어떻게 동작할까?](https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/)
+
+## 목차
+
+- [Hooks](#hooks)
+  - [목차](#목차)
+  - [useState](#usestate)
+    - [여러개의 상태를 변경 할 때](#여러개의-상태를-변경-할-때)
+      - [여러개의 useState](#여러개의-usestate)
+      - [바꿔보기](#바꿔보기)
+  - [useEffect](#useeffect)
+    - [뒷정리하기](#뒷정리하기)
+  - [useContext](#usecontext)
+  - [useReducer](#usereducer)
+    - [불변성](#불변성)
+    - [useReducer 사용하기](#usereducer-사용하기)
+  - [useMemo](#usememo)
 
 ## useState
 
@@ -131,15 +148,14 @@ useEffect(() => {
 > 참고
 > [리액트의 Hooks 완벽 정복하기 : 2.3 뒷정리하기](https://velog.io/@velopert/react-hooks) > [React 공식문서 useContext](https://ko.reactjs.org/docs/hooks-reference.html#usecontext)
 
-뒷정리(cleanup)란 컴포넌트가 언마운트되기 전, 업데이트 되기 직전에 어떠한 작업을 수행하고 싶을 때 useEffect에서 뒷정리 함수를 반환해주는 것.
-
 만약, 언마운트 될 때만 뒷정리 함수를 호출하고 싶다면 useEffect 함수의 두번째 파라미터에 비어있는 배열을 넣으면 된다.
 
 ## useContext
 
-useContext를 이용해서 [배경 테마를 바꾸는 버튼](<(https://codesandbox.io/s/usehooks-od3bw?file=/src/UseContext.js)>)을 만들어보았다.
+> 참고
+> [리액트의 Hooks 완벽 정복하기 : useReducer](https://velog.io/@velopert/react-hooks) > [React 공식문서 useContext](https://ko.reactjs.org/docs/hooks-reference.html#usecontext)
 
-useState를 사용하여 버튼을 누를 때마다 value값이 변하게 한다.
+useContext를 이용해서 [배경 테마를 바꾸는 버튼](<(https://codesandbox.io/s/usehooks-od3bw?file=/src/UseContext.js)>)을 만들어보았다. useState를 사용하여 버튼을 누를 때마다 value값이 변하게 한다.
 
 ```javascript
 // useState를 사용해서 상태값을 변경해준다.
@@ -183,4 +199,77 @@ export default ContextSample;
 
 라이트 다크모드를 만들거나 모바일에서 햄버거 메뉴를 만들때 사용하면 유용할 것 같다.
 
-### useReducer
+## useReducer
+
+### 불변성
+
+> 참고
+> [리액트의 Hooks 완벽 정복하기 : useReducer, velopert](https://velog.io/@velopert/react-hooks)
+
+useReducer는 기존 바닐라 자바스크립트의 Array.prototype.reduce()와 비슷하게 작동하는 것 같다. 다른 점은 배열이 아니더라도 동작한다.
+
+React Hook을 공부하면서 계속 불변성에 대한 이야기가 나오는데 그 부분에 대해서 블로그를 찾아보았다.
+
+> 함수의 불변성이란 무엇일까?  
+> [변하지 않는 상태를 유지하는 방법, 불변성, 출처 : Evans Library](https://evan-moon.github.io/2020/01/05/what-is-immutable/)
+> "사실 불변성이 이야기하는 상태의 변경이라는 것은 단순한 변수의 재할당을 이야기하는 것이 아니다. 정확히 말하면 **메모리에 저장된 값을 변경하는 모든 행위를 의미하며, 여기에 변수의 재할당과 같은 행위도 포함되는 것이다.**" - 블로그 글 중
+
+불변성을 지키라는건 아래 예제와 같은 것을 말하는게 아닐까?
+
+```javascript
+// 변이성
+let a = 1;
+function f(num) {
+  return (a = num + 1);
+}
+const newA = f(a);
+console.log(a); //2
+console.log(newA); //2
+
+// 불변성이란 이런것일까?
+let b = 1;
+const sum1 = function (num) {
+  return num + 1;
+};
+const newNum = sum1(b);
+console.log(b); // 1
+console.log(newNum); //2
+
+const str = "안녕하십니까.";
+
+const subStringFunction = function (s, f) {
+  return f();
+};
+
+const newStr = subStringFunction(str, () => str.substring(0, 2));
+console.log(str); // 안녕하십니까
+console.log(newStr); // 안녕
+
+// 객체
+
+const newUser = function (data, name) {
+  const newUserObj = Object.assign({}, data);
+  newUserObj.name = name;
+
+  return newUserObj;
+};
+const userAngel = { name: "Angel", age: 23, nation: "Asian" };
+const userDevil = newUser(userAngel, "devil");
+console.log(userAngel);
+console.log(userDevil);
+```
+
+### useReducer 사용하기
+
+위에 useState를 객체로 할당해서 [SearchContainer](../src/Routes/SearchContainer.js)movie와 tv로 나눴었는데 useReducer를 사용해서 비슷한 방법으로 [TVContainer](../src/Routes/TVContainer.js)의 useState를 useReduce로 바꿔보았다. 작동은 잘한다.
+
+그럼 useState와 useReducer의 차이는 무엇일까?
+
+> "useReducer가 useState보다 더 적합한 상황은 여러개의 부수적인 값들(예를 들면, 객체의 프로퍼티들)을 포함하거나, 이전의 상태에 다음 상태가 의존하는 경우 상태 관련 로직이 복잡해질 수 있는데, 이때는 useState보다 useReducer가 적합합니다."
+> [출처](https://haeguri.github.io/2019/10/13/react-hooks-basic/#4-useReducer)
+
+만약, 내 어플리케이션에서 영화 정보를 이전 상태에 의지한 상태에서 불러오는 것이라면 useReducer가 적합할 수 있다. 예를들어 왓챠에서 '보고싶어요'를 눌렀을 때, 유저 정보에 그 영화 정보를 이전 상태에 의존해서 새로운 값을 넣는 것이라고 할 수 있다.
+
+그럼 reducer를 사용해서 검색 결과를 누적해서 불러올 수 있을까? 시험삼아 SearchContainer에 적용해보았다. 그런데 동작을 하지 않는다. 이유가 뭘까?(아직은 모름)
+
+## useMemo

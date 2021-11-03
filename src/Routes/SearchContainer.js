@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
 import { movieApi, tvApi } from "api";
 import Loader from "Components/Loader";
@@ -21,29 +21,39 @@ const Input = styled.input`
   font-size: 30px;
 `;
 
+function reducer(state, action) {
+  const { movie, tv } = action;
+  return {
+    ...state,
+    movie,
+    tv,
+  };
+}
+
 const SearchContainer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [datas, setDatas] = useState({
+
+  const [state, dispatch] = useReducer(reducer, {
     movie: [],
-    tv: []
+    tv: [],
   });
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getData = async () => {
     try {
       const {
-        data: { results: movieSearch }
+        data: { results: movieSearch },
       } = await movieApi.search(searchTerm);
       const {
-        data: { results: tvSearch }
+        data: { results: tvSearch },
       } = await tvApi.search(searchTerm);
 
-      setDatas({ movie: movieSearch, tv: tvSearch });
+      dispatch({ movie: movieSearch, tv: tvSearch });
     } catch {
       setError("정보를 찾을 수 없습니다.");
       setLoading(false);
-      setDatas({ movie: [], tv: [] });
+      dispatch({ movie: [], tv: [] });
     } finally {
       setLoading(false);
     }
@@ -62,6 +72,8 @@ const SearchContainer = () => {
     getData();
   }, [searchTerm]);
 
+  const { movie, tv } = state;
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
@@ -75,9 +87,9 @@ const SearchContainer = () => {
         <Loader />
       ) : (
         <>
-          {datas.movie && datas.movie.length > 0 && (
+          {movie && movie.length > 0 && (
             <Section title="영화">
-              {datas.movie.map((movie) => (
+              {movie.map((movie) => (
                 <Poster
                   id={movie.id}
                   imageUrl={movie.poster_path}
@@ -93,32 +105,25 @@ const SearchContainer = () => {
               ))}
             </Section>
           )}
-          {datas.tv && datas.tv.length > 0 && (
+          {tv && tv.length > 0 && (
             <Section title="드라마">
-              {datas.tv.map((tv) => (
+              {tv.map((tv) => (
                 <Poster
                   id={tv.id}
                   imageUrl={tv.poster_path}
                   title={tv.name}
                   rating={tv.vote_average}
                   year={
-                    tv.first_air_date
-                      ? tv.first_air_date.substring(0, 4)
-                      : null
+                    tv.first_air_date ? tv.first_air_date.substring(0, 4) : null
                   }
                 />
               ))}
             </Section>
           )}
           {error && <Message color="black" text={error} />}
-          {datas.movie &&
-            datas.movie.length === 0 &&
-            datas.tv.length === 0 && (
-              <Message
-                text="검색어를 찾을 수 없습니다."
-                color="#5e5e5e"
-              />
-            )}
+          {movie && movie.length === 0 && tv.length === 0 && (
+            <Message text="검색어를 찾을 수 없습니다." color="#5e5e5e" />
+          )}
         </>
       )}
     </Container>

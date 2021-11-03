@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import PropTypes from "prop-types";
 import { tvApi } from "api";
 import styled from "styled-components";
@@ -11,12 +11,27 @@ const Container = styled.div`
   padding: 0 10px;
 `;
 
+function reducer(state, action) {
+  const { onTheAir, popular, topRated } = action;
+  return {
+    ...state,
+    onTheAir,
+    popular,
+    topRated,
+  };
+}
+
 const TVContainer = () => {
   const [loading, setLoading] = useState(true);
-  const [onTheAir, setOnTheAir] = useState([]);
-  const [popular, setPopular] = useState([]);
-  const [topRated, setTopRated] = useState([]);
+
+  const [state, dispatch] = useReducer(reducer, {
+    onTheAir: [],
+    popular: [],
+    topRated: [],
+  });
+
   const [error, setError] = useState(null);
+
   const getData = async () => {
     try {
       const {
@@ -28,9 +43,7 @@ const TVContainer = () => {
       const {
         data: { results: topRated },
       } = await tvApi.top_rated();
-      setOnTheAir(onTheAir);
-      setPopular(popular);
-      setTopRated(topRated);
+      dispatch({ onTheAir, popular, topRated });
     } catch {
       setError("데이터를 찾을 수 없습니다.");
       setLoading(false);
@@ -38,9 +51,13 @@ const TVContainer = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     getData();
   }, []);
+
+  const { onTheAir, popular, topRated } = state;
+
   return loading ? (
     <Loader />
   ) : (
