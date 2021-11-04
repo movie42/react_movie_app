@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, withRouter, Router, Route } from "react-router-dom";
 import { movieApi, tvApi } from "api";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import Message from "Components/Message";
 import Loader from "Components/Loader";
@@ -101,18 +100,14 @@ const Detail = withRouter(
   ({
     location: { pathname },
     match: {
-      params: { id },
+      params: { id }
     },
-    history: { push },
+    history: { push }
   }) => {
     const [loading, setLoading] = useState(true);
     const [item, setItem] = useState([]);
     const [error, setError] = useState(null);
     const [adress, setAdress] = useState(false);
-
-    useEffect(() => {
-      fetchData();
-    }, []);
 
     const parsedId = +id;
 
@@ -138,6 +133,10 @@ const Detail = withRouter(
         setLoading(false);
       }
     };
+
+    useEffect(() => {
+      fetchData();
+    }, []);
 
     return loading ? (
       <Loader />
@@ -188,8 +187,12 @@ const Detail = withRouter(
                 {adress ? (
                   <></>
                 ) : (
-                  <Item current={pathname === `/tv/${parsedId}/season`}>
-                    <ALink to={`/tv/${parsedId}/season`}>시즌 정보</ALink>
+                  <Item
+                    current={pathname === `/tv/${parsedId}/season`}
+                  >
+                    <ALink to={`/tv/${parsedId}/season`}>
+                      시즌 정보
+                    </ALink>
                   </Item>
                 )}
               </List>
@@ -206,7 +209,11 @@ const Detail = withRouter(
               {adress ? (
                 <></>
               ) : (
-                <Route path={"/tv/:id/season"} exact component={Season} />
+                <Route
+                  path={"/tv/:id/season"}
+                  exact
+                  component={Season}
+                />
               )}
             </DetailMenu>
 

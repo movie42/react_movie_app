@@ -10,6 +10,7 @@
 
 - [Hooks](#hooks)
   - [목차](#목차)
+  - [개요](#개요)
   - [useState](#usestate)
     - [여러개의 상태를 변경 할 때](#여러개의-상태를-변경-할-때)
       - [여러개의 useState](#여러개의-usestate)
@@ -21,6 +22,12 @@
     - [불변성](#불변성)
     - [useReducer 사용하기](#usereducer-사용하기)
   - [useMemo](#usememo)
+    - [함수의 메모제이션](#함수의-메모제이션)
+  - [useCallback](#usecallback)
+
+## 개요
+
+Hooks는 리액트 v16.8부터 새롭게 도입되었다.
 
 ## useState
 
@@ -155,7 +162,7 @@ useEffect(() => {
 > 참고
 > [리액트의 Hooks 완벽 정복하기 : useReducer](https://velog.io/@velopert/react-hooks) > [React 공식문서 useContext](https://ko.reactjs.org/docs/hooks-reference.html#usecontext)
 
-useContext를 이용해서 [배경 테마를 바꾸는 버튼](<(https://codesandbox.io/s/usehooks-od3bw?file=/src/UseContext.js)>)을 만들어보았다. useState를 사용하여 버튼을 누를 때마다 value값이 변하게 한다.
+useContext를 이용해서 [배경 테마를 바꾸는 버튼](https://codesandbox.io/s/usehooks-od3bw?file=/src/UseContext.js)을 만들어보았다. useState를 사용하여 버튼을 누를 때마다 value값이 변하게 한다.
 
 ```javascript
 // useState를 사용해서 상태값을 변경해준다.
@@ -214,10 +221,11 @@ React Hook을 공부하면서 계속 불변성에 대한 이야기가 나오는�
 > [변하지 않는 상태를 유지하는 방법, 불변성, 출처 : Evans Library](https://evan-moon.github.io/2020/01/05/what-is-immutable/)
 > "사실 불변성이 이야기하는 상태의 변경이라는 것은 단순한 변수의 재할당을 이야기하는 것이 아니다. 정확히 말하면 **메모리에 저장된 값을 변경하는 모든 행위를 의미하며, 여기에 변수의 재할당과 같은 행위도 포함되는 것이다.**" - 블로그 글 중
 
-불변성을 지키라는건 아래 예제와 같은 것을 말하는게 아닐까?
+불변성을 지키라는건 아래 코드와 같은 것을 말하는게 아닐까? 블로그 글을 보고 내가 직접 작성해본 코드라 불변성을 지킨 코드인지 정확하지는 않다.
 
 ```javascript
 // 변이성
+
 let a = 1;
 function f(num) {
   return (a = num + 1);
@@ -227,6 +235,7 @@ console.log(a); //2
 console.log(newA); //2
 
 // 불변성이란 이런것일까?
+
 let b = 1;
 const sum1 = function (num) {
   return num + 1;
@@ -248,11 +257,25 @@ console.log(newStr); // 안녕
 // 객체
 
 const newUser = function (data, name) {
+  // 객체 내부에 있는 객체까지 깊은 복사가 되지 않는다.
   const newUserObj = Object.assign({}, data);
   newUserObj.name = name;
 
   return newUserObj;
 };
+
+// 만약 내부 객체까지 전부 깊은 복사를 하려면 handleDeepCopyObj를 사용하면 된다.
+// const handleDeepCopyObj = (data) => {
+//   if (data === {} || typeof data !== "object") {
+//     return data;
+//   }
+//   const copyObj = {};
+//   for (let key in data) {
+//     copyObj[key] = handleDeepCopyObj(data[key]);
+//   }
+//   return copyObj;
+// };
+
 const userAngel = { name: "Angel", age: 23, nation: "Asian" };
 const userDevil = newUser(userAngel, "devil");
 console.log(userAngel);
@@ -263,7 +286,7 @@ console.log(userDevil);
 
 위에 useState를 객체로 할당해서 [SearchContainer](../src/Routes/SearchContainer.js)movie와 tv로 나눴었는데 useReducer를 사용해서 비슷한 방법으로 [TVContainer](../src/Routes/TVContainer.js)의 useState를 useReduce로 바꿔보았다. 작동은 잘한다.
 
-그럼 useState와 useReducer의 차이는 무엇일까?
+**그럼 useState와 useReducer의 차이는 무엇일까?**
 
 > "useReducer가 useState보다 더 적합한 상황은 여러개의 부수적인 값들(예를 들면, 객체의 프로퍼티들)을 포함하거나, 이전의 상태에 다음 상태가 의존하는 경우 상태 관련 로직이 복잡해질 수 있는데, 이때는 useState보다 useReducer가 적합합니다."
 > [출처](https://haeguri.github.io/2019/10/13/react-hooks-basic/#4-useReducer)
@@ -273,3 +296,47 @@ console.log(userDevil);
 그럼 reducer를 사용해서 검색 결과를 누적해서 불러올 수 있을까? 시험삼아 SearchContainer에 적용해보았다. 그런데 동작을 하지 않는다. 이유가 뭘까?(아직은 모름)
 
 ## useMemo
+
+함수형 컴포넌트 내부에서 발생하는 연산 최적화를 할 수 있다. useMemo는 함수의 메모제이션과 비슷한 기능을 하는 것으로 보인다. 피보나치 수열을 함수의 메모제이션을 사용해서 구하는 방법이 있는데 이것도 변한 값에 대해서만 연산을 수행한다.
+
+> [실습 예제](https://codesandbox.io/s/usehook-usememo-eei77?file=/src/Average.js)
+> 출처 : [리엑트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)
+
+### 함수의 메모제이션
+
+> 출처 : [모던 자바스크립트 입문, 8장 함수](http://www.yes24.com/Product/Goods/59410698)
+
+```javascript
+function memo(f) {
+  const cache = {};
+  return function (x) {
+    if (x in cache) {
+      console.log("이미 저장된 값이다.");
+      return cache[x];
+    }
+    console.log("새로 저장해야할 값다.");
+    cache[x] = f(x);
+    return cache[x];
+  };
+}
+
+const memoFibo = memo(function (num) {
+  if (num < 2) return num;
+  return memoFibo(num - 1) + memoFibo(num - 2);
+});
+
+memoFibo(100);
+```
+
+## useCallback
+
+useCallback은 useMemo와 비슷하다. 주로 렌더링 성능을 최적화해야하는 상황에서 사용한다. useCallback을 사용하면 이벤트 핸들러 함수를 필요할 때만 생성할 수 있다.
+
+> [실습 예제](https://codesandbox.io/s/usehook-usememo-eei77?file=/src/Average.js)
+>
+> "숫자, 문자열, 객체 처럼 일반 값을 재사용하기 위해서는 useMemo 를, 그리고 함수를 재사용 하기 위해서는 useCallback 을 사용하세요."  
+> 출처 : [리엑트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)
+
+"컴포넌트가 렌더링 될 때"라는 말이 계속 나오는데 그 때가 언제인지(시점) 헷갈린다.
+
+[React 렌더링 이해 및 최적화 (With Hook)](https://medium.com/vingle-tech-blog/react-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-f255d6569849)
