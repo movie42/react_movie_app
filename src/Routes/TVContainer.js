@@ -6,25 +6,16 @@ import Loader from "../Components/Loader";
 import Section from "Components/Section";
 import Poster from "Components/Poster";
 import Message from "Components/Message";
+import { useInputs } from "hooks";
 
 const Container = styled.div`
   padding: 0 10px;
 `;
 
-function reducer(state, action) {
-  const { onTheAir, popular, topRated } = action;
-  return {
-    ...state,
-    onTheAir,
-    popular,
-    topRated,
-  };
-}
-
 const TVContainer = () => {
   const [loading, setLoading] = useState(true);
 
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, handleData] = useInputs({
     onTheAir: [],
     popular: [],
     topRated: [],
@@ -43,7 +34,7 @@ const TVContainer = () => {
       const {
         data: { results: topRated },
       } = await tvApi.top_rated();
-      dispatch({ onTheAir, popular, topRated });
+      handleData({ onTheAir, popular, topRated });
     } catch {
       setError("데이터를 찾을 수 없습니다.");
       setLoading(false);

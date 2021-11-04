@@ -5,6 +5,7 @@ import Loader from "Components/Loader";
 import Section from "Components/Section";
 import Poster from "Components/Poster";
 import Message from "Components/Message";
+import { useInputs } from "../hooks";
 
 const Container = styled.div`
   padding: 0 20px;
@@ -21,20 +22,10 @@ const Input = styled.input`
   font-size: 30px;
 `;
 
-function reducer(state, action) {
-  const { movie, tv } = action;
-  return {
-    ...state,
-    movie,
-    tv,
-  };
-}
-
 const SearchContainer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, handleData] = useInputs({
     movie: [],
     tv: [],
   });
@@ -49,11 +40,11 @@ const SearchContainer = () => {
         data: { results: tvSearch },
       } = await tvApi.search(searchTerm);
 
-      dispatch({ movie: movieSearch, tv: tvSearch });
+      handleData({ movie: movieSearch, tv: tvSearch });
     } catch {
       setError("정보를 찾을 수 없습니다.");
       setLoading(false);
-      dispatch({ movie: [], tv: [] });
+      handleData({ movie: [], tv: [] });
     } finally {
       setLoading(false);
     }

@@ -22,8 +22,13 @@
     - [불변성](#불변성)
     - [useReducer 사용하기](#usereducer-사용하기)
   - [useMemo](#usememo)
+    - [적용해보기](#적용해보기)
     - [함수의 메모제이션](#함수의-메모제이션)
   - [useCallback](#usecallback)
+  - [useRef](#useref)
+  - [커스텀 훅](#커스텀-훅)
+    - [useInput](#useinput)
+  - [리엑트 훅의 작동 원리](#리엑트-훅의-작동-원리)
 
 ## 개요
 
@@ -88,16 +93,16 @@ const SearchContainer = () => {
   // 중략
   const [datas, setDatas] = useState({
     movie: [],
-    tv: []
+    tv: [],
   });
 
   const getData = async () => {
     try {
       const {
-        data: { results: movieSearch }
+        data: { results: movieSearch },
       } = await movieApi.search(searchTerm);
       const {
-        data: { results: tvSearch }
+        data: { results: tvSearch },
       } = await tvApi.search(searchTerm);
 
       setDatas({ movie: movieSearch, tv: tvSearch });
@@ -196,7 +201,7 @@ const ContextSample = ({ value }) => {
   const style = {
     width: "100vw",
     height: "100vh",
-    background: theme
+    background: theme,
   };
   return <div style={style} />;
 };
@@ -302,6 +307,10 @@ console.log(userDevil);
 > [실습 예제](https://codesandbox.io/s/usehook-usememo-eei77?file=/src/Average.js)
 > 출처 : [리엑트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)
 
+### 적용해보기
+
+나의 코드를 보면 movieDB에서 한번 불러온 정보를 페이지를 변경할 때마다 계속 불러오는 것을 알 수 있다.
+
 ### 함수의 메모제이션
 
 > 출처 : [모던 자바스크립트 입문, 8장 함수](http://www.yes24.com/Product/Goods/59410698)
@@ -332,11 +341,27 @@ memoFibo(100);
 
 useCallback은 useMemo와 비슷하다. 주로 렌더링 성능을 최적화해야하는 상황에서 사용한다. useCallback을 사용하면 이벤트 핸들러 함수를 필요할 때만 생성할 수 있다.
 
-> [실습 예제](https://codesandbox.io/s/usehook-usememo-eei77?file=/src/Average.js)
->
+> [실습 예제](https://codesandbox.io/s/usehook-usememo-eei77?file=/src/Average.js)  
 > "숫자, 문자열, 객체 처럼 일반 값을 재사용하기 위해서는 useMemo 를, 그리고 함수를 재사용 하기 위해서는 useCallback 을 사용하세요."  
 > 출처 : [리엑트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)
 
 "컴포넌트가 렌더링 될 때"라는 말이 계속 나오는데 그 때가 언제인지(시점) 헷갈린다.
 
 [React 렌더링 이해 및 최적화 (With Hook)](https://medium.com/vingle-tech-blog/react-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-f255d6569849)
+
+## useRef
+
+> [실습 예제](https://codesandbox.io/s/useref-tfwrd?file=/src/Average.js)  
+> 출처 : [리엑트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)
+
+## 커스텀 훅
+
+### useInput
+
+> [실습 예제](../src/hooks.js)  
+> 출처 : [리엑트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)
+
+## 리엑트 훅의 작동 원리
+
+> [아티클 실습]()
+> 출처 :[[번역] 심층 분석: React Hook은 실제로 어떻게 동작할까?](https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/)
