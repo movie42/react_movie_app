@@ -93,16 +93,16 @@ const SearchContainer = () => {
   // 중략
   const [datas, setDatas] = useState({
     movie: [],
-    tv: [],
+    tv: []
   });
 
   const getData = async () => {
     try {
       const {
-        data: { results: movieSearch },
+        data: { results: movieSearch }
       } = await movieApi.search(searchTerm);
       const {
-        data: { results: tvSearch },
+        data: { results: tvSearch }
       } = await tvApi.search(searchTerm);
 
       setDatas({ movie: movieSearch, tv: tvSearch });
@@ -201,7 +201,7 @@ const ContextSample = ({ value }) => {
   const style = {
     width: "100vw",
     height: "100vh",
-    background: theme,
+    background: theme
   };
   return <div style={style} />;
 };
@@ -363,5 +363,5 @@ useCallback은 useMemo와 비슷하다. 주로 렌더링 성능을 최적화해�
 
 ## 리엑트 훅의 작동 원리
 
-> [아티클 실습]()
+> [아티클 실습](https://codesandbox.io/s/how-to-works-react-hooks-kmmsr)
 > 출처 :[[번역] 심층 분석: React Hook은 실제로 어떻게 동작할까?](https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/)
