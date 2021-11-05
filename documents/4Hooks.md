@@ -28,7 +28,8 @@
   - [useRef](#useref)
   - [커스텀 훅](#커스텀-훅)
     - [useInput](#useinput)
-  - [리엑트 훅의 작동 원리](#리엑트-훅의-작동-원리)
+  - [번외](#번외)
+    - [리엑트 훅의 동작 원리](#리엑트-훅의-동작-원리)
 
 ## 개요
 
@@ -361,7 +362,11 @@ useCallback은 useMemo와 비슷하다. 주로 렌더링 성능을 최적화해�
 > [실습 예제](../src/hooks.js)  
 > 출처 : [리엑트의 Hooks 완벽 정복하기](https://velog.io/@velopert/react-hooks)
 
-## 리엑트 훅의 작동 원리
+## 번외
+
+### 리엑트 훅의 동작 원리
 
 > [아티클 실습](https://codesandbox.io/s/how-to-works-react-hooks-kmmsr)
 > 출처 :[[번역] 심층 분석: React Hook은 실제로 어떻게 동작할까?](https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/)
+
+함수형 컴포넌트를 공부하면 결국 자바스크립트의 함수에 대한 깊은 이해가 필요하다. 클로저, 커링, 부분함수, 메모제이션, 함수 합성 등 자바스크립트의 기본기가 부족하면 그냥 쓰게 되는 것이다. 아티클 실습을 하면서 HTML에 변한 값을 render하는데 실패했다. 왜 그런지 아직은 잘 모른다. 이것 저것 건드려보다가 학습의 방향을 놓칠 것 같아서 다시 제자리로 돌아왔다.(2021.11.5) 이후에 다시 이곳으로 돌아왔을 때, 가상돔에 대해서 공부를 해보고 JSX가 컴포넌트를 렌더링하는 원리를 이해해보자.

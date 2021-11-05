@@ -51,7 +51,14 @@ const Year = styled.small`
   color: #d6313d;
 `;
 
-const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
+const Poster = ({
+  id,
+  imageUrl,
+  title,
+  rating,
+  year,
+  isMovie = false
+}) => (
   <Link to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
     <Container>
       <ImageContainer>
@@ -70,6 +77,6 @@ Poster.propTypes = {
   title: PropTypes.string.isRequired,
   rating: PropTypes.number,
   year: PropTypes.string,
-  isMovie: PropTypes.bool,
+  isMovie: PropTypes.bool
 };
 export default Poster;

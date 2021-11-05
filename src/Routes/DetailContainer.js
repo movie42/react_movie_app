@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, withRouter, Router, Route } from "react-router-dom";
+import { Link, withRouter, Route } from "react-router-dom";
 import { movieApi, tvApi } from "api";
 import styled from "styled-components";
 import Message from "Components/Message";

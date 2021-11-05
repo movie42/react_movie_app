@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
+import { useInputs } from "hooks";
 import PropTypes from "prop-types";
 import { tvApi } from "api";
 import styled from "styled-components";
@@ -6,7 +7,6 @@ import Loader from "../Components/Loader";
 import Section from "Components/Section";
 import Poster from "Components/Poster";
 import Message from "Components/Message";
-import { useInputs } from "hooks";
 
 const Container = styled.div`
   padding: 0 10px;
@@ -18,7 +18,7 @@ const TVContainer = () => {
   const [state, handleData] = useInputs({
     onTheAir: [],
     popular: [],
-    topRated: [],
+    topRated: []
   });
 
   const [error, setError] = useState(null);
@@ -26,13 +26,13 @@ const TVContainer = () => {
   const getData = async () => {
     try {
       const {
-        data: { results: onTheAir },
+        data: { results: onTheAir }
       } = await tvApi.on_the_air();
       const {
-        data: { results: popular },
+        data: { results: popular }
       } = await tvApi.popular();
       const {
-        data: { results: topRated },
+        data: { results: topRated }
       } = await tvApi.top_rated();
       handleData({ onTheAir, popular, topRated });
     } catch {
@@ -43,11 +43,11 @@ const TVContainer = () => {
     }
   };
 
+  const { onTheAir, popular, topRated } = state;
+
   useEffect(() => {
     getData();
   }, []);
-
-  const { onTheAir, popular, topRated } = state;
 
   return loading ? (
     <Loader />
@@ -57,6 +57,7 @@ const TVContainer = () => {
         <Section title="방영중">
           {onTheAir.map((tv) => (
             <Poster
+              key={tv.id}
               id={tv.id}
               imageUrl={tv.poster_path}
               title={tv.name}
@@ -70,6 +71,7 @@ const TVContainer = () => {
         <Section title="인기 작품">
           {popular.map((tv) => (
             <Poster
+              key={tv.id}
               id={tv.id}
               imageUrl={tv.poster_path}
               title={tv.name}
@@ -83,6 +85,7 @@ const TVContainer = () => {
         <Section title="탑 10">
           {topRated.map((tv) => (
             <Poster
+              key={tv.id}
               id={tv.id}
               imageUrl={tv.poster_path}
               title={tv.name}
@@ -95,14 +98,14 @@ const TVContainer = () => {
       {error && <Message color="black" text={error} />}
     </Container>
   );
+};
 
-  //   TVPresenter.propTypes = {
-  //     onTheAir: PropTypes.array,
-  //     popular: PropTypes.array,
-  //     topRated: PropTypes.array,
-  //     loading: PropTypes.bool.isRequired,
-  //     error: PropTypes.string,
-  //   };
+TVContainer.propTypes = {
+  onTheAir: PropTypes.array,
+  popular: PropTypes.array,
+  topRated: PropTypes.array,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string
 };
 
 export default TVContainer;
