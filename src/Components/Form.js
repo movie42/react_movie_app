@@ -1,45 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import Input from "Components/Input";
 
-const Form = () => {
+function Form() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [state, setState] = useState(0);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    // 뭐가 문제인지 모르겠다...
-    console.log(email, password);
-  }
-
-  function handleEmail(value) {
+  const handleEmail = useCallback(({ target: { value } }) => {
     setEmail(value);
-    console.log(value);
-  }
+  }, []);
 
-  function handlePassword(value) {
+  const handlePassword = useCallback(({ target: { value } }) => {
     setPassword(value);
-  }
+  }, []);
 
-  function handleReset(e) {
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(email, password);
+    },
+    [email, password],
+  );
+
+  const handleReset = useCallback(() => {
     setEmail("");
     setPassword("");
-    setState(state + 1);
-  }
+  }, []);
+
+  const emailAccessory = useMemo(() => {
+    return email !== "" && <button>X</button>;
+  }, [email]);
+
+  const passwordAccessory = useMemo(() => {
+    return password !== "" && <button>X</button>;
+  }, [password]);
 
   return (
     <form onSubmit={handleSubmit}>
       <Input
-        key={state + "email"}
         type="email"
         placeholder="이메일"
+        value={email}
         onChange={handleEmail}
+        accessory={emailAccessory}
+        autoFocus={true}
       />
       <Input
-        key={state + "password"}
         type="password"
         placeholder="비밀번호"
+        value={password}
         onChange={handlePassword}
+        accessory={passwordAccessory}
       />
       <button type="submit">가입</button>
       <button type="button" onClick={handleReset}>
@@ -47,6 +57,6 @@ const Form = () => {
       </button>
     </form>
   );
-};
+}
 
 export default Form;

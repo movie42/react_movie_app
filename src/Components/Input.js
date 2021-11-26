@@ -1,19 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 
-const Input = ({ type, placeholder, onChange }) => {
-  const [value, setValue] = useState("");
+const Input = ({
+  type,
+  value,
+  placeholder,
+  onChange,
+  accessory,
+  autoFocus = false,
+}) => {
+  const renderCount = useRef(0);
+  const inputElement = useRef(null);
 
-  function handleChange(e) {
-    setValue(e.target.value);
-    onChange(value);
-  }
+  console.log("Render", placeholder, ++renderCount.current);
+  console.log(inputElement);
 
+  useEffect(() => {
+    if (autoFocus) {
+      inputElement.current.focus();
+    }
+  }, [autoFocus]);
   return (
-    <>
-      {console.log("render", placeholder)}
-      <input placeholder={placeholder} value={value} onChange={handleChange} />
-    </>
+    <div style={{ display: "flex" }}>
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        ref={inputElement}
+      />
+      {accessory}
+    </div>
   );
 };
 
-export default Input;
+export default React.memo(Input);
