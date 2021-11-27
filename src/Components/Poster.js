@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -50,7 +50,14 @@ const Year = styled.small`
   color: #d6313d;
 `;
 
-const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => {
+const Poster = ({
+  id,
+  imageUrl,
+  title,
+  rating,
+  year,
+  isMovie = false
+}) => {
   return (
     <>
       <Link key={id} to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
