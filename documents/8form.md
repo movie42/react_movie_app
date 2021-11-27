@@ -1,6 +1,7 @@
 # 사용자의 입력을 효과적으로 받는 폼 만들기(form)
 
-## [컴포넌트 제대로 만들기](https://hyunseob.github.io/2019/06/02/react-component-the-right-way/)
+> 참조
+> [컴포넌트 제대로 만들기](https://hyunseob.github.io/2019/06/02/react-component-the-right-way/)
 
 리액트로 만들어진 앱의 가장 최소한의 단위는 컴포넌트이기 때문에 컴포넌트는 중요한 구성요소이다. 따라서, 잘 작동하는 리액트 앱을 만들기 위해서는
 
@@ -54,7 +55,11 @@ const Form = () => {
     <>
       {conosle.log("render")}
       <from onSubmit={handleSubmit}>
-        <input type="email" placeholder="이메일" onChange={handleEmail} />
+        <input
+          type="email"
+          placeholder="이메일"
+          onChange={handleEmail}
+        />
         <input
           type="password"
           placeholder="비밀번호"
@@ -76,7 +81,7 @@ import React, { useState } from "react";
 const Form = () => {
   const [value, setValue] = useState({
     email: "",
-    password: "",
+    password: ""
   });
 
   const { email, password } = value;

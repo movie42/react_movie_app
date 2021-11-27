@@ -18,7 +18,7 @@ const TVContainer = () => {
   const [state, handleData] = useInputs({
     onTheAir: [],
     popular: [],
-    topRated: []
+    topRated: [],
   });
 
   const [error, setError] = useState(null);
@@ -26,13 +26,13 @@ const TVContainer = () => {
   const getData = async () => {
     try {
       const {
-        data: { results: onTheAir }
+        data: { results: onTheAir },
       } = await tvApi.on_the_air();
       const {
-        data: { results: popular }
+        data: { results: popular },
       } = await tvApi.popular();
       const {
-        data: { results: topRated }
+        data: { results: topRated },
       } = await tvApi.top_rated();
       handleData({ onTheAir, popular, topRated });
     } catch {
@@ -100,12 +100,12 @@ const TVContainer = () => {
   );
 };
 
-TVContainer.propTypes = {
-  onTheAir: PropTypes.array,
-  popular: PropTypes.array,
-  topRated: PropTypes.array,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string
-};
+// TVContainer.propTypes = {
+//   onTheAir: PropTypes.array,
+//   popular: PropTypes.array,
+//   topRated: PropTypes.array,
+//   loading: PropTypes.bool.isRequired,
+//   error: PropTypes.string
+// };
 
 export default TVContainer;
