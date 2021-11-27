@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -50,24 +50,21 @@ const Year = styled.small`
   color: #d6313d;
 `;
 
-export const Poster = ({
-  id,
-  imageUrl,
-  title,
-  rating,
-  year,
-  isMovie = false,
-}) => (
-  <>
-    <Link to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
-      <Container>
-        <ImageContainer>
-          <Image bgUrl={imageUrl} />
-          <Rating>평점 | {rating}</Rating>
-        </ImageContainer>
-        <Title>{title}</Title>
-        <Year>{year}</Year>
-      </Container>
-    </Link>
-  </>
-);
+const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => {
+  return (
+    <>
+      <Link key={id} to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
+        <Container>
+          <ImageContainer>
+            <Image bgUrl={imageUrl} />
+            <Rating>평점 | {rating}</Rating>
+          </ImageContainer>
+          <Title>{title}</Title>
+          <Year>{year}</Year>
+        </Container>
+      </Link>
+    </>
+  );
+};
+
+export default Poster;
