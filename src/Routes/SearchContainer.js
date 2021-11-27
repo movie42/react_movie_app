@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { movieApi, tvApi } from "api";
 import Loader from "Components/Loader";
 import Section from "Components/Section";
-import Poster from "Components/Poster";
+import { Poster } from "Components/Poster";
 import Message from "Components/Message";
 import { useInputs } from "../hooks";
 

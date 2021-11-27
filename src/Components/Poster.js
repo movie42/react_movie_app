@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Container = styled.div``;
@@ -51,32 +50,24 @@ const Year = styled.small`
   color: #d6313d;
 `;
 
-const Poster = ({
+export const Poster = ({
   id,
   imageUrl,
   title,
   rating,
   year,
-  isMovie = false
+  isMovie = false,
 }) => (
-  <Link to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
-    <Container>
-      <ImageContainer>
-        <Image bgUrl={imageUrl} />
-        <Rating>평점 | {rating}</Rating>
-      </ImageContainer>
-      <Title>{title}</Title>
-      <Year>{year}</Year>
-    </Container>
-  </Link>
+  <>
+    <Link to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
+      <Container>
+        <ImageContainer>
+          <Image bgUrl={imageUrl} />
+          <Rating>평점 | {rating}</Rating>
+        </ImageContainer>
+        <Title>{title}</Title>
+        <Year>{year}</Year>
+      </Container>
+    </Link>
+  </>
 );
-
-Poster.propTypes = {
-  id: PropTypes.number.isRequired,
-  imageUrl: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  rating: PropTypes.number,
-  year: PropTypes.string,
-  isMovie: PropTypes.bool
-};
-export default Poster;

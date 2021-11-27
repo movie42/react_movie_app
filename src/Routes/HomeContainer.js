@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useInputs } from "hooks";
 import { movieApi } from "api";
 import styled from "styled-components";
 import Loader from "../Components/Loader";
 import Section from "Components/Section";
-import Poster from "Components/Poster";
+import { Poster } from "Components/Poster";
 import Message from "Components/Message";
 import PropTypes from "prop-types";
 
@@ -17,19 +17,19 @@ const HomeContainer = () => {
   const [state, dispatch] = useInputs({
     nowPlaying: [],
     popular: [],
-    upComing: []
+    upComing: [],
   });
   const [error, setError] = useState(null);
   const getData = async () => {
     try {
       const {
-        data: { results: nowPlaying }
+        data: { results: nowPlaying },
       } = await movieApi.nowPlaying();
       const {
-        data: { results: popular }
+        data: { results: popular },
       } = await movieApi.popular();
       const {
-        data: { results: upComing }
+        data: { results: upComing },
       } = await movieApi.upComing();
       dispatch({ nowPlaying, popular, upComing });
     } catch {
@@ -53,15 +53,17 @@ const HomeContainer = () => {
       {nowPlaying && nowPlaying.length > 0 && (
         <Section title="상영중">
           {nowPlaying.map((movie) => (
-            <Poster
-              key={movie.id}
-              id={movie.id}
-              imageUrl={movie.poster_path}
-              title={movie.title}
-              rating={movie.vote_average}
-              year={movie.release_date.substring(0, 4)}
-              isMovie={true}
-            />
+            <>
+              <Poster
+                key={movie.id}
+                id={movie.id}
+                imageUrl={movie.poster_path}
+                title={movie.title}
+                rating={movie.vote_average}
+                year={movie.release_date.substring(0, 4)}
+                isMovie={true}
+              />
+            </>
           ))}
         </Section>
       )}
@@ -100,12 +102,12 @@ const HomeContainer = () => {
   );
 };
 
-HomeContainer.propTypes = {
-  nowPlaying: PropTypes.array,
-  popular: PropTypes.array,
-  upComing: PropTypes.array,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string
-};
+// HomeContainer.propTypes = {
+//   nowPlaying: PropTypes.array,
+//   popular: PropTypes.array,
+//   upComing: PropTypes.array,
+//   loading: PropTypes.bool.isRequired,
+//   error: PropTypes.string
+// };
 
 export default HomeContainer;
