@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -60,7 +60,7 @@ const Poster = ({
 }) => {
   return (
     <>
-      <Link key={id} to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
+      <Link to={isMovie ? `/movie/${id}` : `/tv/${id}`}>
         <Container>
           <ImageContainer>
             <Image bgUrl={imageUrl} />

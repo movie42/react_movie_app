@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useInputs } from "hooks";
 import { movieApi } from "api";
 import styled from "styled-components";
@@ -6,52 +6,72 @@ import Loader from "../Components/Loader";
 import Section from "Components/Section";
 import Poster from "Components/Poster";
 import Message from "Components/Message";
-
+import useData from "../useData";
 const Container = styled.div`
   padding: 0 10px;
 `;
 
 const HomeContainer = () => {
   const [loading, setLoading] = useState(true);
-  const [state, dispatch] = useInputs({
-    nowPlaying: [],
-    popular: [],
-    upComing: [],
-  });
+  const { movie, error } = useData();
 
-  const [error, setError] = useState(null);
+  // const [state, dispatch] = useInputs({
+  //   nowPlaying: [],
+  //   popular: [],
+  //   upComing: []
+  // });
 
-  const getData = async () => {
-    try {
-      const {
-        data: { results: nowPlaying },
-      } = await movieApi.nowPlaying();
-      const {
-        data: { results: popular },
-      } = await movieApi.popular();
-      const {
-        data: { results: upComing },
-      } = await movieApi.upComing();
-      dispatch({ nowPlaying, popular, upComing });
-    } catch {
-      setError("영화 정보를 찾을 수 없습니다.");
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const [error, setError] = useState(null);
 
-  const { nowPlaying, popular, upComing } = state;
+  // const getData = async () => {
+  //   try {
+  //     const {
+  //       data: { results: nowPlaying }
+  //     } = await movieApi.nowPlaying();
+
+  //     const {
+  //       data: { results: popular }
+  //     } = await movieApi.popular();
+  //     const {
+  //       data: { results: upComing }
+  //     } = await movieApi.upComing();
+  //     dispatch({ nowPlaying, popular, upComing });
+  //   } catch {
+  //     // setError("영화 정보를 찾을 수 없습니다.");
+  //     setLoading(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // const { nowPlaying, popular, upComing } = state;
 
   useEffect(() => {
-    getData();
-  }, []);
+    setLoading(false);
+  }, [loading]);
 
   return loading ? (
     <Loader />
   ) : (
     <Container>
-      {nowPlaying && nowPlaying.length > 0 && (
+      {movie && movie.results.length > 0 && (
+        <Section title="테스트">
+          {movie.results.map((value) => {
+            return (
+              <Poster
+                key={value.id}
+                id={value.id}
+                imageUrl={value.poster_path}
+                title={value.title}
+                rating={value.vote_average}
+                year={value.release_date.substring(0, 4)}
+                isMovie={true}
+              />
+            );
+          })}
+        </Section>
+      )}
+      {/* {nowPlaying && nowPlaying.length > 0 && (
         <Section title="상영중">
           {nowPlaying.map((movie) => (
             <>
@@ -97,7 +117,7 @@ const HomeContainer = () => {
             />
           ))}
         </Section>
-      )}
+      )} */}
       {error && <Message color="black" text={error} />}
     </Container>
   );
